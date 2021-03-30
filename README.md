@@ -26,10 +26,25 @@ ssh -f -X receiver@$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' 
 # Sources
 [Ubuntu wiki](https://wiki.ubuntuusers.de/Citrix_Receiver_13/)
 
-# Certificats
+# Desktop launcher
 
-Donc pour info, nous avons du ajouter "à la main" les certificats CRT de Thawte dans Firefox, ainsi que dans :
-cp Downloads/ThawteTLSRSACAG1.crt thawte_Primary_Root_CA.crt /opt/Citrix/ICAClient/keystore/intcerts/ && /opt/Citrix/ICAClient/util/ctx_rehash
+To add a desktop launcher, execute on the host system:
 
-Par ailleurs et au besoin, voici la manière dont nous utilisons Docker :
-https://github.com/pia-lab/citrix_receiver-docker
+```
+$ cat | sudo tee /usr/local/bin/citrix-launcher <<EOF
+#!/bin/bash
+/usr/bin/docker restart citrix_receiver
+/usr/bin/ssh -f -X receiver@$(docker inspect --format "{{ .NetworkSettings.IPAddress }}" citrix_receiver) -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /usr/bin/firefox <MY_CITRIX_URL>
+EOF
+$ sudo chmod +x /usr/local/bin/citrix-launcher
+$ cat | sudo tee /usr/share/applications/citrix.desktop <<EOF
+[Desktop Entry]
+Encoding=UTF-8
+Name=Citrix CL
+Exec=/usr/local/bin/citrix-launcher
+Icon=/usr/share/icons/default/citrix-receiver-icon.png
+Type=Application
+Categories=Development
+EOF
+$ sudo wget https://www.freeiconspng.com/uploads/citrix-icon-3.png -O https://www.freeiconspng.com/uploads/citrix-icon-3.png
+```
