@@ -25,3 +25,11 @@ ssh -f -X receiver@$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' 
 
 # Sources
 [Ubuntu wiki](https://wiki.ubuntuusers.de/Citrix_Receiver_13/)
+
+# Certificats
+
+Donc pour info, nous avons du ajouter "à la main" les certificats CRT de Thawte dans Firefox, ainsi que dans :
+cp Downloads/ThawteTLSRSACAG1.crt thawte_Primary_Root_CA.crt /opt/Citrix/ICAClient/keystore/intcerts/ && /opt/Citrix/ICAClient/util/ctx_rehash
+
+Par ailleurs et au besoin, voici la manière dont nous utilisons Docker :
+https://github.com/pia-lab/citrix_receiver-docker
