@@ -46,5 +46,5 @@ Icon=/usr/share/icons/default/citrix-receiver-icon.png
 Type=Application
 Categories=Development
 EOF
-$ sudo wget https://www.freeiconspng.com/uploads/citrix-icon-3.png -O https://www.freeiconspng.com/uploads/citrix-icon-3.png
+$ sudo wget https://www.freeiconspng.com/uploads/citrix-icon-3.png -O /usr/share/icons/default/citrix-receiver-icon.png
 ```
